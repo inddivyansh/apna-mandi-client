@@ -1,7 +1,10 @@
 import axios from 'axios';
 import useStore from '../store';
 
-const API_URL = import.meta.env.PROD ? 'YOUR_DEPLOYED_BACKEND_URL' : '/api';
+// Use the deployed Render URL in production, otherwise use the local proxy
+const API_URL = import.meta.env.PROD 
+    ? 'https://apna-mandi-server.onrender.com' // <-- PASTE YOUR RENDER BACKEND URL HERE
+    : '/api';
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -16,6 +19,4 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}, (error) => {
-  return Promise.reject(error);
 });
